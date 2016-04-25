@@ -23,7 +23,6 @@ module SandthornDriverEventStore
 				event_store.save_events test_events, aggregate_id, String
 				events = event_store.find aggregate_id
 				event = events.first
-				puts event
 				expect(event[:event_args]).to eql(test_events.first[:event_args])
         expect(event[:event_name]).to eql("new")
         expect(event[:aggregate_id]).to eql aggregate_id
