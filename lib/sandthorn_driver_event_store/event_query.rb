@@ -6,14 +6,10 @@ module SandthornDriverEventStore
 
     def build(
       stream_name:,
-      aggregate_types: [],
       take: 0,
       after_sequence_number: 0)
 
-      aggregate_types.map!(&:to_s)
-
       query = storage.events
-      query = add_aggregate_types(query, aggregate_types)
       query = add_sequence_number(query, after_sequence_number)
       query = add_select(query)
       query = add_limit(query, take)

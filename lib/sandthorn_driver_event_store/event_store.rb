@@ -14,7 +14,6 @@ module SandthornDriverEventStore
       driver.execute do |db|
         event_access = get_event_access(db)
         events = events.map { |event| event[:aggregate_type] = class_name; event[:aggregate_id] = aggregate_id; event;}
-
         event_access.store_events(events)
       end
     end
