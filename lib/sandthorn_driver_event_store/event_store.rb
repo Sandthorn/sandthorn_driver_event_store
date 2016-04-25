@@ -30,15 +30,9 @@ module SandthornDriverEventStore
     end
 
     def get_events(*args)
-      driver.execute do |db|
-        event_access = get_event_access(db)
-        event_access.get_events(*args)
-      end
+      raise :NotImplemented
     end
 
-    def get_new_events_after_event_id_matching_classname event_id, class_name, take: 0
-      get_events(after_sequence_number: event_id, aggregate_types: Utilities.array_wrap(class_name), take: take)
-    end
 
     private
 
