@@ -9,10 +9,10 @@ require 'sandthorn_driver_event_store/errors'
 
 module SandthornDriverEventStore
   class << self
-    def driver_from_url url: nil, context: nil, file_output_options: {}
-      EventStore.new url: url, context: context, file_output_options: file_output_options
+    def driver host:, port:, page_size: 20
+      driver = SandthornDriverEventStore::EventStoreDriver.new host: host, port: port, page_size: page_size
+      return SandthornDriverEventStore::EventStore.new event_store_driver: driver
     end
-
   end
 end
 

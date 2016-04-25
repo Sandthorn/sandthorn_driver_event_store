@@ -24,10 +24,10 @@ def event_store_driver_memory
 end
 
 def event_store_driver
-	SandthornDriverEventStore::EventStoreDriver.new url: "localhost", port: 2113, page_size: 20
+	event_store.driver
 end
 
 def event_store
-  @event_store ||= SandthornDriverEventStore::EventStore.new event_store_driver: event_store_driver
+  @event_store ||= SandthornDriverEventStore.driver host: "localhost", port: 2113, page_size: 20
   return @event_store
 end
