@@ -1,2 +1,1 @@
 require "sandthorn_driver_event_store/wrappers/event_wrapper"
-require "sandthorn_driver_event_store/wrappers/snapshot_wrapper"

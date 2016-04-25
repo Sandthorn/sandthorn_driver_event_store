@@ -5,6 +5,7 @@ module SandthornDriverEventStore
     end
 
     def build(
+      stream_name:,
       aggregate_types: [],
       take: 0,
       after_sequence_number: 0)

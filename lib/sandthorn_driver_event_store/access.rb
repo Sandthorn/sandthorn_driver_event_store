@@ -16,4 +16,3 @@ module SandthornDriverEventStore
 end
 
 require "sandthorn_driver_event_store/access/event_access"
-require "sandthorn_driver_event_store/access/snapshot_access"

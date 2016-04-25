@@ -7,16 +7,9 @@ module SandthornDriverEventStore
 			let(:subject) { event_store }
       methods = [
         :save_events,
-        :save_snapshot,
-        :get_aggregate_events_from_snapshot,
-        :get_aggregate,
-        :get_aggregate_events,
-        :get_aggregate_ids,
-      #  :get_all_types,
-        :get_snapshot,
+        :find,
+        :all,
         :get_events,
-        :url,
-        :context,
         :driver
       ]
 
