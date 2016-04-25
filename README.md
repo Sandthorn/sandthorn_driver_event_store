@@ -1,6 +1,6 @@
 # Sandthorn Event Store driver
 
-A Event Store driver for [Sandthorn](https://github.com/Sandthorn/sandthorn), made with [Event Store](geteventstore.com).
+A [Event Store](geteventstore.com) driver for [Sandthorn](https://github.com/Sandthorn/sandthorn).
 
 This driver is a write upon [http_eventstore](https://github.com/arkency/http_eventstore) from [Arkency](http://arkency.com)
 
