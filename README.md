@@ -1,12 +1,13 @@
-[![Code Climate](https://codeclimate.com/github/Sandthorn/sandthorn_driver_sequel.png)](https://codeclimate.com/github/Sandthorn/sandthorn_driver_sequel)
+# Sandthorn Event Store driver
 
-# Sandthorn Sequel-driver 2
+A Event Store driver for [Sandthorn](https://github.com/Sandthorn/sandthorn), made with [Event Store](geteventstore.com).
 
-A SQL database driver for [Sandthorn](https://github.com/Sandthorn/sandthorn), made with [Sequel](http://sequel.jeremyevans.net/).
+This driver is a write upon [http_eventstore](https://github.com/arkency/http_eventstore) from [Arkency](http://arkency.com)
 
-This sequel driver is a rewrite from [sandthorn_driver_sequel](https://github.com/Sandthorn/sandthorn_driver_sequel) and its purpous is to speed up batch imports.
+Currently only a subset of functionallity is implemented contra the [sandthorn_sequel_driver](https://github.com/Sandthorn/sandthorn_sequel_driver)
 
-It has removed the aggregate table and store all aggregate and event data in the events table. Its possible to output the event data to file and import it to the database with the COPY command. This speeds up the import of larger dataset by a magnitude of alot. A note is that the aggregate_version checks has been removed and the user has to make sure that no other write of events are written during batch import.
+* save_events
+* find
 
 ## Installation
 
@@ -24,22 +25,13 @@ Or install it yourself as:
 
 ## Usage
 
-Its possible to setup the EventStore with `file_output_options: hash`, this will make the EventStore output all its events to a file on disk. The file path is the `:events_file_path` key in the hash. It´s possible to specify a custom delimiter intead of the default ','.
-
-```ruby
-    SandthornDriverEventStore.driver_from_url(
-        url: event_store_url,
-        file_output_options: {
-            events_file_path: "../events.csv",
-            delimiter: ';'
-        }
-    )
-```
-
+    SandthornDriverEventStore.driver host: "localhost", port: 2113
+   
 ## Todo
 
+ * All - Get all events based on Aggregate type (Class)
+ * Get events - Functionallity for [Sandthorn Sequel Projection](https://github.com/Sandthorn/sandthorn_sequel_projection) 
  * Implement snapshoting, now all event of an aggregate has to be fetched to build the aggregate.
- * Add back the aggregate_version checks
 
 ## Contributing
 
