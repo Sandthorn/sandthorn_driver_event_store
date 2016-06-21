@@ -1,4 +1,4 @@
-require 'http_eventstore'
+require 'http_event_store'
 require 'in_memory_es'
 
 module SandthornDriverEventStore

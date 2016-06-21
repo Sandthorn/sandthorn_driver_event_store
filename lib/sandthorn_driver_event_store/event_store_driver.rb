@@ -1,11 +1,11 @@
-require 'http_eventstore'
+require 'http_event_store'
 
 module SandthornDriverEventStore
   class EventStoreDriver
 
     def initialize host:, port:, page_size:
 
-      @connection = HttpEventstore::Connection.new do |config|
+      @connection = HttpEventStore::Connection.new do |config|
          #default value is '127.0.0.1'
          config.endpoint = host
          #default value is 2113
