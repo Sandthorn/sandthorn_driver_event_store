@@ -35,5 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "snappy"
   spec.add_development_dependency "guard-rspec"
 
-  #spec.add_runtime_dependency     "http_event_store", :git => 'https://github.com/hallgren/http_event_store', :branch => "save_event_with_no_event_data"
+#  spec.add_runtime_dependency     "http_event_store"
 end
