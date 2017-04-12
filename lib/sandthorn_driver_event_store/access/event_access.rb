@@ -61,14 +61,14 @@ module SandthornDriverEventStore
           hash[item[:attribute_name]] = item[:new_value]
         end
       end
-      hash
+      hash.empty? ? nil : hash
     end
 
     def build_event_args data, method_name
-      delta = JSON.parse(data.to_json, symbolize_names: true)
+      delta = data ? JSON.parse(data.to_json) : []
       
       attribute_deltas = delta.map do |key, value|
-        {attribute_name: key.to_s, old_value: nil, new_value: value}
+        {attribute_name: key, old_value: nil, new_value: value}
       end
 
       {:method_name=>method_name, :method_args=>[], :attribute_deltas=>attribute_deltas}
