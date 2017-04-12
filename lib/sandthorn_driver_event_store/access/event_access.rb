@@ -9,7 +9,7 @@ module SandthornDriverEventStore
       stream_name = events.first[:aggregate_id]
 
       event_store_events = events.map do |event|
-        build_event_data(timestamp, event)
+        build_event(timestamp, event)
       end
 
       if event_store_events.any?
@@ -20,8 +20,9 @@ module SandthornDriverEventStore
 
     def find_events_by_aggregate_id(aggregate_id)
       return storage.read_all_events_forward(aggregate_id).map { |event|
+        event_args = build_event_args event.data, event.type
         {
-          event_args:         JSON.parse(event.data.to_json, symbolize_names: true),
+          event_args:         event_args,
           aggregate_id:       event.stream_name,
           aggregate_version:  event.position+1,
           event_name:         event.type
@@ -42,10 +43,10 @@ module SandthornDriverEventStore
       events.map { |e| EventWrapper.new(e.values) }
     end
 
-    def build_event_data(timestamp, event)
+    def build_event(timestamp, event)
       {
         event_type: event[:event_name].to_s,
-        data: event[:event_args],
+        data: build_event_data(event[:event_args]),
         event_id: SecureRandom.uuid,
         id: event[:aggregate_id],
         position: event[:aggregate_version]-1,
@@ -53,5 +54,24 @@ module SandthornDriverEventStore
       }
     end
 
+    def build_event_data event_args
+      hash = {}
+      unless event_args[:attribute_deltas].nil?
+        event_args[:attribute_deltas].each do |item|   
+          hash[item[:attribute_name]] = item[:new_value]
+        end
+      end
+      hash
+    end
+
+    def build_event_args data, method_name
+      delta = JSON.parse(data.to_json, symbolize_names: true)
+      
+      attribute_deltas = delta.map do |key, value|
+        {attribute_name: key.to_s, old_value: nil, new_value: value}
+      end
+
+      {:method_name=>method_name, :method_args=>[], :attribute_deltas=>attribute_deltas}
+    end
   end
 end
