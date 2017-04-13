@@ -37,7 +37,7 @@ module SandthornDriverEventStore
 
       it "handles both arrays and single events" do
         access.store_events(events[0])
-        events = access.find_events_by_aggregate_id(aggregate_id)
+        events = access.events_by_stream_id("Foo-#{aggregate_id}")
         expect(events.length).to eq(1)
       end
 
@@ -49,12 +49,12 @@ module SandthornDriverEventStore
       end
     end
 
-    describe "#find_events_by_aggregate_id" do
+    describe "#events_by_stream_id" do
       context "when there are events" do
         it "returns correct events" do
           access.store_events(events)
 
-          stored_events = access.find_events_by_aggregate_id(aggregate_id)
+          stored_events = access.events_by_stream_id("Foo-#{aggregate_id}")
           expect(stored_events.size).to eq(events.size)
           expect(stored_events).to all(respond_to(:merge))
           stored_events.each { |event|
