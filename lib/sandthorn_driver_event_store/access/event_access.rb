@@ -13,7 +13,7 @@ module SandthornDriverEventStore
       end
 
       if event_store_events.any?
-        expected_version = event_store_events.first[:position] > 0 ? event_store_events.first[:position]-1 : nil
+        expected_version = event_store_events.first[:position] ? event_store_events.first[:position]-1 : nil
         storage.append_to_stream(stream_name, event_store_events, expected_version)
       end
     end
@@ -51,7 +51,7 @@ module SandthornDriverEventStore
         data: build_data(event[:event_data]),
         event_id: SecureRandom.uuid,
         id: event[:aggregate_id],
-        position: event[:aggregate_version]-1,
+        position: event[:aggregate_version] ? event[:aggregate_version]-1 : nil,
         created_time: timestamp
       }
     end
