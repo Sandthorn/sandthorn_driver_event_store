@@ -26,7 +26,10 @@ module SandthornDriverEventStore
     end
 
     def all aggregate_type
-      raise :NotImplemented
+      driver.execute do |db|
+        event_access = get_event_access(db)
+        event_access.events_by_category(aggregate_type)
+      end
     end
 
     def get_events(*args)

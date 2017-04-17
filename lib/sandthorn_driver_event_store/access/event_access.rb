@@ -27,7 +27,7 @@ module SandthornDriverEventStore
 
     def events_by_stream_id(stream_id)
       begin
-        return storage.read_all_events_forward(stream_id).map { |event|
+        return storage.read_all_events_forward(stream_id).map do |event|
           event_data = build_event_data event.data, event.type
           aggregate_id = event.stream_name.split('-',2).last
 
@@ -37,9 +37,34 @@ module SandthornDriverEventStore
             aggregate_version:  event.position+1,
             event_name:         event.type
           }
-        }
+        end
       rescue HttpEventStore::StreamNotFound
         raise Errors::NoAggregateError
+      end
+    end
+
+    def events_by_category(category)
+      begin
+        category_stream = "$ce-#{category}"
+        events = storage.read_all_events_forward(category_stream)
+        
+        return [] if events.nil?
+        return events.group_by(&:stream_name).map do |stream_name, stream_events|
+          aggregate_id = stream_name.split('-',2).last
+          
+          stream_events.map do |event|
+            event_data = build_event_data event.data, event.type
+
+            {
+              event_data:         event_data,
+              aggregate_id:       aggregate_id,
+              aggregate_version:  event.id+1,
+              event_name:         event.type
+            }
+          end
+        end
+      rescue HttpEventStore::StreamNotFound
+        []
       end
     end
 
