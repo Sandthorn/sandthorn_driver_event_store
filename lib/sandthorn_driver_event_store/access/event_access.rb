@@ -1,3 +1,5 @@
+require "sandthorn_driver_event_store/errors"
+
 module SandthornDriverEventStore
   class EventAccess < Access::Base
     # = EventAccess
@@ -14,22 +16,31 @@ module SandthornDriverEventStore
 
       if event_store_events.any?
         expected_version = event_store_events.first[:position] ? event_store_events.first[:position]-1 : nil
-        storage.append_to_stream(stream_name, event_store_events, expected_version)
+        begin
+          storage.append_to_stream(stream_name, event_store_events, expected_version)  
+        rescue HttpEventStore::WrongExpectedEventNumber
+          raise Errors::WrongAggregateVersionError
+        end
+        
       end
     end
 
     def events_by_stream_id(stream_id)
-      return storage.read_all_events_forward(stream_id).map { |event|
-        event_data = build_event_data event.data, event.type
-        aggregate_id = event.stream_name.split('-',2).last
+      begin
+        return storage.read_all_events_forward(stream_id).map { |event|
+          event_data = build_event_data event.data, event.type
+          aggregate_id = event.stream_name.split('-',2).last
 
-        {
-          event_data:         event_data,
-          aggregate_id:       aggregate_id,
-          aggregate_version:  event.position+1,
-          event_name:         event.type
+          {
+            event_data:         event_data,
+            aggregate_id:       aggregate_id,
+            aggregate_version:  event.position+1,
+            event_name:         event.type
+          }
         }
-      }
+      rescue HttpEventStore::StreamNotFound
+        raise Errors::NoAggregateError
+      end
     end
 
     def get_events(*args)

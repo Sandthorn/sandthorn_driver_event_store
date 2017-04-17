@@ -1,4 +1,5 @@
 require 'sandthorn_driver_event_store'
+require 'sandthorn_driver_event_store/errors'
 require 'ap'
 require 'uuidtools'
 require 'in_memory_event_store_driver'
