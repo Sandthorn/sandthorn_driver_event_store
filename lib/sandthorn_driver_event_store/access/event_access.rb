@@ -13,7 +13,6 @@ module SandthornDriverEventStore
       event_store_events = events.map do |event|
         build_event(timestamp, event)
       end
-
       if event_store_events.any?
         expected_version = event_store_events.first[:position] ? event_store_events.first[:position]-1 : nil
         begin
@@ -30,7 +29,6 @@ module SandthornDriverEventStore
         return storage.read_all_events_forward(stream_id).map do |event|
           event_data = build_event_data event.data, event.type
           aggregate_id = event.stream_name.split('-',2).last
-
           {
             event_data:         event_data,
             aggregate_id:       aggregate_id,
@@ -54,7 +52,6 @@ module SandthornDriverEventStore
           
           stream_events.map do |event|
             event_data = build_event_data event.data, event.type
-
             {
               event_data:         event_data,
               aggregate_id:       aggregate_id,

@@ -10,10 +10,10 @@ module SandthornDriverEventStore
       end
     end
 
-    def save_events events, aggregate_id, class_name
+    def save_events events, aggregate_id, aggregate_type
       driver.execute do |db|
         event_access = get_event_access(db)
-        events = events.map { |event| event[:aggregate_type] = class_name; event[:aggregate_id] = aggregate_id; event;}
+        events = events.map { |event| event[:aggregate_type] = aggregate_type; event[:aggregate_id] = aggregate_id; event;}
         event_access.store_events(events)
       end
     end
@@ -35,7 +35,6 @@ module SandthornDriverEventStore
     def get_events(*args)
       raise :NotImplemented
     end
-
 
     private
 
