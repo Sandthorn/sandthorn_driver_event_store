@@ -25,12 +25,12 @@ module SandthornDriverEventStore
     end
 
     def events_by_stream_id(stream_id)
+
       begin
         return storage.read_all_events_forward(stream_id).map do |event|
-          event_data = build_event_data event.data, event.type
           aggregate_id = event.stream_name.split('-',2).last
           {
-            event_data:         event_data,
+            event_data:         build_event_data(event.data),
             aggregate_id:       aggregate_id,
             aggregate_version:  event.position+1,
             event_name:         event.type
@@ -51,9 +51,8 @@ module SandthornDriverEventStore
           aggregate_id = stream_name.split('-',2).last
           
           stream_events.map do |event|
-            event_data = build_event_data event.data, event.type
             {
-              event_data:         event_data,
+              event_data:         build_event_data(event.data),
               aggregate_id:       aggregate_id,
               aggregate_version:  event.id+1,
               event_name:         event.type
@@ -82,6 +81,7 @@ module SandthornDriverEventStore
       {
         event_type: event[:event_name].to_s,
         data: build_data(event[:event_data]),
+        meta_data: build_meta_data(event[:event_meta_data]),
         event_id: SecureRandom.uuid,
         id: event[:aggregate_id],
         position: event[:aggregate_version] ? event[:aggregate_version]-1 : nil,
@@ -99,7 +99,7 @@ module SandthornDriverEventStore
       hash.empty? ? nil : hash
     end
 
-    def build_event_data data, method_name
+    def build_event_data data
       delta = data ? JSON.parse(data.to_json) : []
       
       attribute_deltas = delta.map do |key, value|
@@ -107,6 +107,10 @@ module SandthornDriverEventStore
       end
 
       {:attribute_deltas=>attribute_deltas}
+    end
+
+    def build_meta_data meta_data
+      meta_data ? JSON.parse(meta_data.to_json) : nil
     end
   end
 end

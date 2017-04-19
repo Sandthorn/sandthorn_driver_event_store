@@ -22,13 +22,15 @@ module SandthornDriverEventStore
           aggregate_id: aggregate_id,
           aggregate_type: "Foo",
           event_name: "new",
-          event_data: {test: "new_data"}
+          event_data: {test: "new_data"},
+          event_meta_data: {test: "new_meta_data"},
         },{
           aggregate_version: 2,
           aggregate_id: aggregate_id,
           aggregate_type: "Foo",
           event_name: "foo",
-          event_data: {test: "foo_data"}
+          event_data: {test: "foo_data"},
+          event_meta_data: {test: "new_meta_data"},
         }
       ]
     end
