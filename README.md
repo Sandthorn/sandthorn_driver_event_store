@@ -4,10 +4,12 @@ A [Event Store](geteventstore.com) driver for [Sandthorn](https://github.com/San
 
 This driver is a write upon [http_eventstore](https://github.com/arkency/http_eventstore) from [Arkency](http://arkency.com)
 
-Currently only a subset of functionallity is implemented contra the [sandthorn_sequel_driver](https://github.com/Sandthorn/sandthorn_sequel_driver)
+Currently its only `get_events` that is not implemented contra the [sandthorn_sequel_driver](https://github.com/Sandthorn/sandthorn_sequel_driver).
 
 * save_events
 * find
+* all
+
 
 ## Installation
 
@@ -29,9 +31,7 @@ Or install it yourself as:
    
 ## Todo
 
- * All - Get all events based on Aggregate type (Class)
  * Get events - Functionallity for [Sandthorn Sequel Projection](https://github.com/Sandthorn/sandthorn_sequel_projection) 
- * Implement snapshoting, now all event of an aggregate has to be fetched to build the aggregate.
 
 ## Contributing
 
