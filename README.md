@@ -8,7 +8,7 @@ Currently its only `get_events` that is not implemented contra the [sandthorn_se
 
 * save_events
 * find
-* all
+* all - The default projections in GetEventStore needs to be enabled.
 
 
 ## Installation
