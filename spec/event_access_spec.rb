@@ -23,14 +23,14 @@ module SandthornDriverEventStore
           aggregate_type: "Foo",
           event_name: "new",
           event_data: {test: "new_data"},
-          event_meta_data: {test: "new_meta_data"},
+          event_metadata: {test: "new_metadata"},
         },{
           aggregate_version: 2,
           aggregate_id: aggregate_id,
           aggregate_type: "Foo",
           event_name: "foo",
           event_data: {test: "foo_data"},
-          event_meta_data: {test: "new_meta_data"},
+          event_metadata: {test: "new_metadata"},
         }
       ]
     end
@@ -132,7 +132,7 @@ module SandthornDriverEventStore
           sleep 1
           
           stored_events_by_aggregate = access.events_by_category(random_category_1)
-          
+
           expect(stored_events_by_aggregate.size).to eq(2)
           expect(stored_events_by_aggregate.first.first[:aggregate_id]).to eql aggregate_id_1
           expect(stored_events_by_aggregate.last.first[:aggregate_id]).to eql aggregate_id_2

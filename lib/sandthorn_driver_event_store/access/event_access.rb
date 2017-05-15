@@ -81,7 +81,7 @@ module SandthornDriverEventStore
       {
         event_type: event[:event_name].to_s,
         data: build_data(event[:event_data]),
-        meta_data: build_meta_data(event[:event_meta_data]),
+        metadata: build_metadata(event[:event_metadata]),
         event_id: SecureRandom.uuid,
         id: event[:aggregate_id],
         position: event[:aggregate_version] ? event[:aggregate_version]-1 : nil,
@@ -109,8 +109,8 @@ module SandthornDriverEventStore
       {:attribute_deltas=>attribute_deltas}
     end
 
-    def build_meta_data meta_data
-      meta_data ? JSON.parse(meta_data.to_json) : nil
+    def build_metadata metadata
+      metadata ? JSON.parse(metadata.to_json) : nil
     end
   end
 end

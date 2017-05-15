@@ -6,9 +6,9 @@ module SandthornDriverEventStore
         context "when saving a prefectly sane event stream" do
             let(:test_events) do
                 e = []
-                e << {aggregate_version: 1, event_name: "new", event_data: {:attribute_deltas=>[{:attribute_name=>"aggregate_id", :old_value=>nil, :new_value=>"e147e4bb-e98d-4008-ae9a-0bccce314d7b"}]}, event_meta_data: nil}
-                e << {aggregate_version: 2, event_name: "foo", event_data: {:attribute_deltas=>[{:attribute_name=>"aggregate_id", :old_value=>nil, :new_value=>"e147e4bb-e98d-4008-ae9a-0bccce314d7b"}]}, event_meta_data: nil}
-                e << {aggregate_version: 3, event_name: "flubber", event_data: {:attribute_deltas=>[{:attribute_name=>"aggregate_id", :old_value=>nil, :new_value=>"e147e4bb-e98d-4008-ae9a-0bccce314d7b"}]}, event_meta_data: nil}
+                e << {aggregate_version: 1, event_name: "new", event_data: {:attribute_deltas=>[{:attribute_name=>"aggregate_id", :old_value=>nil, :new_value=>"e147e4bb-e98d-4008-ae9a-0bccce314d7b"}]}, event_metadata: nil}
+                e << {aggregate_version: 2, event_name: "foo", event_data: {:attribute_deltas=>[{:attribute_name=>"aggregate_id", :old_value=>nil, :new_value=>"e147e4bb-e98d-4008-ae9a-0bccce314d7b"}]}, event_metadata: nil}
+                e << {aggregate_version: 3, event_name: "flubber", event_data: {:attribute_deltas=>[{:attribute_name=>"aggregate_id", :old_value=>nil, :new_value=>"e147e4bb-e98d-4008-ae9a-0bccce314d7b"}]}, event_metadata: nil}
             end
 
             let(:aggregate_id) { SecureRandom.uuid }
