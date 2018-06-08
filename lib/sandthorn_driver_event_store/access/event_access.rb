@@ -18,8 +18,8 @@ module SandthornDriverEventStore
       end
     end
 
-    def find_events(aggregate_id, class_name)
-      stream_name = class_name.to_s + "-" + aggregate_id
+    def find_events(aggregate_id, aggregate_type)
+      stream_name = aggregate_type.to_s + "-" + aggregate_id
       return storage.read_all_events_forward(stream_name).map { |event|
         aggregate_id = event.stream_name.partition('-').last
         {
