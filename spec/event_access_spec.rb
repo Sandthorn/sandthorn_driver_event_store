@@ -44,7 +44,7 @@ module SandthornDriverEventStore
       context "when the aggregate version of an event is incorrect" do
         it "throws an error" do
           event = { aggregate_version: 100, aggregate_id: aggregate_id, aggregate_type: "Foo", event_name: "new", event_data: "noop" }
-          expect { access.store_events([event])}.to raise_error
+          expect { access.store_events([event])}.to raise_error HttpEventStore::WrongExpectedEventNumber
         end
       end
     end
