@@ -21,7 +21,7 @@ module SandthornDriverEventStore
     def find_events_by_aggregate_id(aggregate_id)
       return storage.read_all_events_forward(aggregate_id).map { |event|
         {
-          event_args:         JSON.parse(event.data.to_json, symbolize_names: true),
+          event_data:         JSON.parse(event.data.to_json, symbolize_names: true),
           aggregate_id:       event.stream_name,
           aggregate_version:  event.position+1,
           event_name:         event.type
@@ -45,7 +45,7 @@ module SandthornDriverEventStore
     def build_event_data(timestamp, event)
       {
         event_type: event[:event_name].to_s,
-        data: event[:event_args],
+        data: event[:event_data],
         event_id: SecureRandom.uuid,
         id: event[:aggregate_id],
         position: event[:aggregate_version]-1,
