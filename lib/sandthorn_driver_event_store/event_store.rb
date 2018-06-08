@@ -18,10 +18,10 @@ module SandthornDriverEventStore
       end
     end
 
-    def find aggregate_id
+    def find aggregate_id, class_name
       driver.execute do |db|
         event_access = get_event_access(db)
-        event_access.find_events_by_aggregate_id(aggregate_id)
+        event_access.find_events(aggregate_id, class_name)
       end
     end
 

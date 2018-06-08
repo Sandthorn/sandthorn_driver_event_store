@@ -6,7 +6,7 @@ module SandthornDriverEventStore
     def store_events(events = [])
       events = Utilities.array_wrap(events)
       timestamp = Time.now.utc
-      stream_name = events.first[:aggregate_id]
+      stream_name = events.first[:aggregate_type].to_s + "-" +events.first[:aggregate_id]
 
       event_store_events = events.map do |event|
         build_event_data(timestamp, event)
@@ -18,11 +18,13 @@ module SandthornDriverEventStore
       end
     end
 
-    def find_events_by_aggregate_id(aggregate_id)
-      return storage.read_all_events_forward(aggregate_id).map { |event|
+    def find_events(aggregate_id, class_name)
+      stream_name = class_name.to_s + "-" + aggregate_id
+      return storage.read_all_events_forward(stream_name).map { |event|
+        aggregate_id = event.stream_name.partition('-').last
         {
           event_data:         JSON.parse(event.data.to_json, symbolize_names: true),
-          aggregate_id:       event.stream_name,
+          aggregate_id:       aggregate_id,
           aggregate_version:  event.position+1,
           event_name:         event.type
         }

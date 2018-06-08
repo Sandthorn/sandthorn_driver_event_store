@@ -9,8 +9,9 @@ module SandthornDriverEventStore
 
     let(:db) { Sequel.connect(event_store_url)}
     let(:aggregate_id) { SecureRandom.uuid }
+    let(:class_name) { "Foo"}
     let(:aggregate) do
-      aggregate_access.register_aggregate(aggregate_id, "foo")
+      aggregate_access.register_aggregate(aggregate_id, class_name)
     end
     let(:storage) { return event_store_driver.execute { |db| return db; } }
     let(:access) { EventAccess.new(storage) }
@@ -20,13 +21,13 @@ module SandthornDriverEventStore
         {
           aggregate_version: 1,
           aggregate_id: aggregate_id,
-          aggregate_type: "Foo",
+          aggregate_type: class_name,
           event_name: "new",
           event_data: {test: "new_data"}
         },{
           aggregate_version: 2,
           aggregate_id: aggregate_id,
-          aggregate_type: "Foo",
+          aggregate_type: class_name,
           event_name: "foo",
           event_data: {test: "foo_data"}
         }
@@ -37,7 +38,7 @@ module SandthornDriverEventStore
 
       it "handles both arrays and single events" do
         access.store_events(events[0])
-        events = access.find_events_by_aggregate_id(aggregate_id)
+        events = access.find_events(aggregate_id, class_name)
         expect(events.length).to eq(1)
       end
 
@@ -49,12 +50,12 @@ module SandthornDriverEventStore
       end
     end
 
-    describe "#find_events_by_aggregate_id" do
+    describe "#find_events" do
       context "when there are events" do
         it "returns correct events" do
           access.store_events(events)
 
-          stored_events = access.find_events_by_aggregate_id(aggregate_id)
+          stored_events = access.find_events(aggregate_id, class_name)
           expect(stored_events.size).to eq(events.size)
           expect(stored_events).to all(respond_to(:merge))
           stored_events.each { |event|
