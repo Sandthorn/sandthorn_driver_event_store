@@ -28,6 +28,6 @@ def event_store_driver
 end
 
 def event_store
-  @event_store ||= SandthornDriverEventStore.driver host: "localhost", port: 2113, page_size: 20
+  @event_store ||= SandthornDriverEventStore.driver host: "db", port: 2113, page_size: 20
   return @event_store
 end
