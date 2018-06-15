@@ -55,9 +55,20 @@ module SandthornDriverEventStore
         it "returns correct events" do
           access.store_events(events)
 
-          stored_events = access.find_events(aggregate_id, aggregate_type)
+          stored_events = access.find_events(aggregate_id, aggregate_type, 0)
           expect(stored_events.size).to eq(events.size)
-          expect(stored_events).to all(respond_to(:merge))
+          stored_events.each { |event|
+            expect(event[:aggregate_id]).to eql aggregate_id
+          }
+        end
+      end
+
+      context "when getting with after_aggregate_version 1" do
+        it "returns correct events" do
+          access.store_events(events)
+
+          stored_events = access.find_events(aggregate_id, aggregate_type, 1)
+          expect(stored_events.size).to eq(events.size-1)
           stored_events.each { |event|
             expect(event[:aggregate_id]).to eql aggregate_id
           }

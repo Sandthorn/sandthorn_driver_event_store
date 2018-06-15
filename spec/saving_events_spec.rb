@@ -6,9 +6,9 @@ module SandthornDriverEventStore
 		context "when saving a prefectly sane event stream" do
 			let(:test_events) do
 				e = []
-				e << {aggregate_version: 1, aggregate_id: "e147e4bb-e98d-4008-ae9a-0bccce314d7b", event_name: "new", event_data: {}}
-				e << {aggregate_version: 2, aggregate_id: "e147e4bb-e98d-4008-ae9a-0bccce314d7b", event_name: "foo", event_data: {}}
-				e << {aggregate_version: 3, aggregate_id: "e147e4bb-e98d-4008-ae9a-0bccce314d7b", event_name: "flubber", event_data: {}}
+				e << {aggregate_version: 1, aggregate_id: aggregate_id, event_name: "new", event_data: {}}
+				e << {aggregate_version: 2, aggregate_id: aggregate_id, event_name: "foo", event_data: {}}
+				e << {aggregate_version: 3, aggregate_id: aggregate_id, event_name: "flubber", event_data: {}}
 			end
 
       let(:aggregate_id) { SecureRandom.uuid }
@@ -16,6 +16,7 @@ module SandthornDriverEventStore
       it "should be able to save and retrieve events on the aggregate" do
 				event_store.save_events test_events, aggregate_id, String
 				events = event_store.find aggregate_id, String
+
 				expect(events.length).to eql test_events.length
 			end
 
