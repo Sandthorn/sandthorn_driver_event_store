@@ -2,12 +2,16 @@
 
 A [Event Store](geteventstore.com) driver for [Sandthorn](https://github.com/Sandthorn/sandthorn).
 
-This driver is a write upon [http_eventstore](https://github.com/arkency/http_eventstore) from [Arkency](http://arkency.com)
+This driver is built upon [http_eventstore](https://github.com/arkency/http_eventstore) from [Arkency](http://arkency.com)
 
-Currently only a subset of functionallity is implemented contra the [sandthorn_sequel_driver](https://github.com/Sandthorn/sandthorn_sequel_driver)
+A subset of the functionality supported by the [sandthorn_driver_sequel](https://github.com/Sandthorn/sandthorn_driver_sequel) is available:
 
-* save_events
-* find
+| Supported? | Feature | Description |
+| --- | --- | --- |
+| :white_check_mark: | `save_events` | . |
+| :white_check_mark: | `find` | . |
+|  | All | Get all events based on Aggregate type (Class) |
+|  | Get events | Functionality for [Sandthorn Sequel Projection](https://github.com/Sandthorn/sandthorn_sequel_projection)  |
 
 ## Installation
 
@@ -26,11 +30,6 @@ Or install it yourself as:
 ## Usage
 
     SandthornDriverEventStore.driver host: "localhost", port: 2113
-   
-## Not supported
-
- * All - Get all events based on Aggregate type (Class)
- * Get events - Functionallity for [Sandthorn Sequel Projection](https://github.com/Sandthorn/sandthorn_sequel_projection) 
 
 ## Contributing
 
