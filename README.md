@@ -27,11 +27,10 @@ Or install it yourself as:
 
     SandthornDriverEventStore.driver host: "localhost", port: 2113
    
-## Todo
+## Not supported
 
  * All - Get all events based on Aggregate type (Class)
  * Get events - Functionallity for [Sandthorn Sequel Projection](https://github.com/Sandthorn/sandthorn_sequel_projection) 
- * Implement snapshoting, now all event of an aggregate has to be fetched to build the aggregate.
 
 ## Contributing
 
